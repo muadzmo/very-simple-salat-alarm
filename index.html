@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 id="wadaw"></h1>
+    <div id="wadaw"></div>
     <button id="turnAlarmOff" style="display: none;">Matiin Alarm</button>    
 </body>
 <script>
@@ -30,8 +30,8 @@
             minute: "numeric"});
             
         if(typeof nearestTime === 'undefined'){
-            nearestTime = '00:00';
-            sholatTime = 'Imsak';
+            nearestTime = currentTime = '00:00';
+            sholatTime = currentSholatTime = 'Imsak';
         }            
         
         if(nearestTime < nowTime){
@@ -60,7 +60,9 @@
                     for(i=0;i<arrJadwalSholat.length;i++){
                         if(nowTime < arrJadwalSholat[i]){
                             nearestTime = arrJadwalSholat[i];
+                            currentTime = arrJadwalSholat[i-1];
                             sholatTime = listJadwalSholat[i];
+                            currentSholatTime = listJadwalSholat[i-1];
                             offAlarm = 0;
                             return;
                         }
@@ -82,7 +84,9 @@
             displayTurnOffButton = "none";
         }
 
-        document.getElementById("wadaw").innerHTML = `${todayDate.toISOString().substr(0,10)} ${nowTime} <br> waktu terdekat adalah: ${sholatTime} pukul ${nearestTime}`;
+        document.getElementById("wadaw").innerHTML = `${todayDate.toISOString().substr(0,10)} ${nowTime} <br> 
+        waktu solat sekarang adalah:  ${currentSholatTime} pukul ${currentTime} <br>
+        waktu solat yang akan datang adalah: ${sholatTime} pukul ${nearestTime}`;
 
         setTimeout(setTime,1000);
     }
